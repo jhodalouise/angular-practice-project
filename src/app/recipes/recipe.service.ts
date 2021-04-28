@@ -1,12 +1,40 @@
+
+import { EventEmitter, Injectable } from "@angular/core";
+import { Ingredient } from "../shared/ingredient.model";
+import { ShoppingListService } from "../shopping-list/shopping-list.service";
 import { Recipe } from "./recipe.model";
 
+@Injectable()
 export class RecipeService {
 
+    recipeSelected = new EventEmitter<Recipe>();
+
+    constructor(private slService: ShoppingListService) {}
+
     private recipes: Recipe[] = [
-        new Recipe('A Test Recipe', 'This is a simply a test', 'https://www.tasteofhome.com/wp-content/uploads/2020/01/Easy-Pad-Thai_EXPS_FT20_249632_F_0109_1.jpg?resize=768,768'),new Recipe('Another Test Recipe', 'This is a simply a test', 'https://www.tasteofhome.com/wp-content/uploads/2020/01/Easy-Pad-Thai_EXPS_FT20_249632_F_0109_1.jpg?resize=768,768')
+        new Recipe(
+            'Tasty Schnitzel',
+             'A super-tasty Schnitzel - just awesome',
+              'https://thumbs.dreamstime.com/b/tasty-schnitzel-breading-fried-potato-onion-mushrooms-191837873.jpg',
+              [
+                  new Ingredient('Meat', 1),
+                  new Ingredient('French Fries', 20)
+              ]),
+        new Recipe(
+            'Big Fat Burger',
+             'Need I say more?',
+              'https://www.thebeijinger.com/sites/default/files/thebeijinger/blog-images/313215/fatburger_0.jpg',
+              [
+                new Ingredient('Buns', 2),
+                new Ingredient('Patties', 3)
+              ])
       ];
 
     getRecipes() {
         return this.recipes.slice();
+    }
+
+    addIngredientsToShoppingList(ingredients: Ingredient[]) {
+        this.slService.addIngredients(ingredients);
     }
 }
