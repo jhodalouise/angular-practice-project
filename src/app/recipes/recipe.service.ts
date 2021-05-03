@@ -12,28 +12,37 @@ export class RecipeService {
     // recipeSelected = new EventEmitter<Recipe>();
     // recipeSelected = new Subject<Recipe>();
 
-    recipesChanged = new Subject<Recipe[]>();
+    recipesChanged = new Subject<Recipe[]>(); 
+
+    
+
+    // private recipes: Recipe[] = [
+    //     new Recipe(
+    //         'Tasty Schnitzel',
+    //          'A super-tasty Schnitzel - just awesome',
+    //           'https://thumbs.dreamstime.com/b/tasty-schnitzel-breading-fried-potato-onion-mushrooms-191837873.jpg',
+    //           [
+    //               new Ingredient('Meat', 1),
+    //               new Ingredient('French Fries', 20)
+    //           ]),
+    //     new Recipe(
+    //         'Big Fat Burger',
+    //          'Need I say more?',
+    //           'https://www.thebeijinger.com/sites/default/files/thebeijinger/blog-images/313215/fatburger_0.jpg',
+    //           [
+    //             new Ingredient('Buns', 2),
+    //             new Ingredient('Patties', 3)
+    //           ])
+    //   ];
+
+    private recipes: Recipe[] = [];
 
     constructor(private slService: ShoppingListService) {}
 
-    private recipes: Recipe[] = [
-        new Recipe(
-            'Tasty Schnitzel',
-             'A super-tasty Schnitzel - just awesome',
-              'https://thumbs.dreamstime.com/b/tasty-schnitzel-breading-fried-potato-onion-mushrooms-191837873.jpg',
-              [
-                  new Ingredient('Meat', 1),
-                  new Ingredient('French Fries', 20)
-              ]),
-        new Recipe(
-            'Big Fat Burger',
-             'Need I say more?',
-              'https://www.thebeijinger.com/sites/default/files/thebeijinger/blog-images/313215/fatburger_0.jpg',
-              [
-                new Ingredient('Buns', 2),
-                new Ingredient('Patties', 3)
-              ])
-      ];
+    setRecipes(recipes: Recipe[]) {
+        this.recipes = recipes;
+        this.recipesChanged.next(this.recipes.slice());
+    }
 
     addRecipe(recipe: Recipe) {
         this.recipes.push(recipe);
@@ -61,5 +70,7 @@ export class RecipeService {
         this.recipes.splice(index, 1);
         this.recipesChanged.next(this.recipes.slice());
     }
+
+
 
 }
